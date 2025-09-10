@@ -27,7 +27,8 @@ Advanced model merging and enhancement nodes for ComfyUI, providing sophisticate
 
 ## Installation
 
-### Method 1: ComfyUI Manager (Recommended)
+### Method 1: ComfyUI Manager (OPTIONAL)
+Note: Not available yet there.
 1. Open ComfyUI Manager
 2. Search for "TensorPrism"
 3. Click Install
@@ -37,9 +38,10 @@ Advanced model merging and enhancement nodes for ComfyUI, providing sophisticate
 2. Place the entire folder in your `ComfyUI/custom_nodes/` directory
 3. Restart ComfyUI
 
+### Method 3:
 ```bash
 cd ComfyUI/custom_nodes/
-git clone https://github.com/yourusername/tensorprism-comfyui.git
+https://github.com/AstrionX/ComfyUI-Tensor-Prism-Node-Pack.git
 ```
 
 ## Usage
