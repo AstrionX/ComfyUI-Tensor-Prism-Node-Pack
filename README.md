@@ -28,7 +28,7 @@ Advanced model merging and enhancement nodes for ComfyUI, providing sophisticate
 ## Installation
 
 ### Method 1: ComfyUI Manager (OPTIONAL)
-Note: Not available yet there.
+Note: Not available on there yet.
 1. Open ComfyUI Manager
 2. Search for "TensorPrism"
 3. Click Install
