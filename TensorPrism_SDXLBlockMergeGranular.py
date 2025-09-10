@@ -193,20 +193,13 @@ class SDXLBlockMergeGranularTensorPrism:
                 if param_C.dtype != param_A.dtype or param_C.device != param_A.device:
                     param_C = param_C.to(dtype=param_A.dtype, device=param_A.device)
 
-                # Optimization 5: Use in-place operations with addcmul_ to reduce memory allocations.
+                # Fixed: Use proper tensor operations instead of addcmul_
                 # merged = C + (A - C) * delta_A_factor + (B - C) * delta_B_factor
                 delta_A_factor = current_modulation_ratio * a_delta_factor
                 delta_B_factor = (1.0 - current_modulation_ratio) * b_delta_factor
                 
-                # Start with a clone of param_C, then add scaled differences.
-                # .clone() ensures we don't modify the original param_C in unet_sd_C.
-                merged_tensor = param_C.clone()
-                # addcmul_(tensor1, tensor2, value) computes tensor1 + tensor2 * value.
-                # This approach creates fewer intermediate tensors compared to chained additions/multiplications,
-                # thereby reducing memory footprint and potentially improving GPU cache utilization.
-                merged_tensor.addcmul_(param_A - param_C, delta_A_factor)
-                merged_tensor.addcmul_(param_B - param_C, delta_B_factor)
-                merged_unet_sd[key] = merged_tensor
+                # Calculate the merged tensor using standard tensor operations
+                merged_unet_sd[key] = param_C + (param_A - param_C) * delta_A_factor + (param_B - param_C) * delta_B_factor
 
             elif merge_method == "TIES-Merging (Simplified)":
                 if key not in unet_sd_C:
@@ -234,16 +227,13 @@ class SDXLBlockMergeGranularTensorPrism:
                         alpha_k = 0.0
                         beta_k = 0.0
 
-                # Optimization 5: Use in-place operations with addcmul_ to reduce memory allocations.
+                # Fixed: Use proper tensor operations instead of addcmul_
                 # Calculate combined delta factors including iterations and delta factors
                 final_factor_A = alpha_k * a_delta_factor * iterations
                 final_factor_B = beta_k * b_delta_factor * iterations
 
-                # Start with a clone of param_C, then add scaled differences.
-                merged_tensor = param_C.clone()
-                merged_tensor.addcmul_(param_A - param_C, final_factor_A)
-                merged_tensor.addcmul_(param_B - param_C, final_factor_B)
-                merged_unet_sd[key] = merged_tensor
+                # Calculate the merged tensor using standard tensor operations
+                merged_unet_sd[key] = param_C + (param_A - param_C) * final_factor_A + (param_B - param_C) * final_factor_B
             else:
                 raise ValueError(f"Internal error: Unhandled merge method '{merge_method}' during key processing.")
 
