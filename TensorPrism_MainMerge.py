@@ -3,7 +3,7 @@ import math
 import torch.fft
 import comfy.model_management
 
-class TensorPrism_CoreMerge:
+class TensorPrism_MainMerge:
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -220,9 +220,10 @@ class TensorPrism_CoreMerge:
 
 
 NODE_CLASS_MAPPINGS = {
-    "TensorPrism_CoreMerge": TensorPrism_CoreMerge
+    "TensorPrism_MainMerge": TensorPrism_MainMerge
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "TensorPrism_CoreMerge": "Core Merge (Tensor Prism)"
+    "TensorPrism_MainMerge": "Main Merge (Tensor Prism)"
+
 }
