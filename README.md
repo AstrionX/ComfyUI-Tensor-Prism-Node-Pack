@@ -1,7 +1,7 @@
 # ComfyUI-Tensor-Prism-Node-Pack
 ## Developer Notes
 
-My First ComfyUI Node Pack, vibe coded with Gemini 2.5 Flash and Claude 4. With `TensorPrism_SDXLBlockMergeGranular.py` if you want to run three models in it Model C is the base and you need more than 12GB of VRAM. Also feel free to share your creations with me.
+My First ComfyUI Node Pack, vibe coded with Gemini 2.5 Flash and Claude 4. With `TensorPrism_SDXLBlockMergeGranular.py` if you want to run three models in it Model C is the base. Feel free to share your merge creations with this node pack with me.
 
 # TensorPrism ComfyUI Node Pack
 
