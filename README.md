@@ -73,7 +73,7 @@ The **Prism** node offers frequency-domain merging:
 
 | Node | Category | Purpose |
 |------|----------|---------|
-| Core Merge | Tensor Prism/Core | Basic advanced merging |
+| Main Merge | Tensor Prism/Core | Basic advanced merging |
 | Model Enhancer | checkpoint/enhancement | Model quality improvement |
 | Layered Blend | Tensor Prism/Merge | Component-specific merging |
 | Prism | Tensor Prism/Core | Spectral merging |
