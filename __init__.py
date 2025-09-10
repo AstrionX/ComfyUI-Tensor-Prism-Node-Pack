@@ -1,116 +1,81 @@
 """
-DEBUG VERSION: ComfyUI Node Pack __init__.py
-Use this to identify what's going wrong
+TensorPrism ComfyUI Node Pack
+Advanced model merging and enhancement nodes for ComfyUI
 """
 
-print("[TensorPrism] Starting to load nodes...")
+print("[TensorPrism] Loading node pack...")
 
-# Step 1: Try basic imports first
-try:
-    print("[TensorPrism] Attempting imports...")
-    
-    # ADJUST THESE IMPORTS TO MATCH YOUR ACTUAL FILE STRUCTURE
-    # Option A: If your nodes are in separate files
-    from .core_merge import CoreMergeNode
-    from .model_enhancer import ModelEnhancerNode
-    from .layered_blend import LayeredBlendNode
-    from .prism import PrismNode
-    from .sdxl_block_merge import SDXLBlockMergeNode
-    from .model_mask_generator import ModelMaskGeneratorNode
-    from .weighted_mask_merge import WeightedMaskMergeNode
-    
-    print("[TensorPrism] All imports successful!")
-    
-except ImportError as e:
-    print(f"[TensorPrism] Import error: {e}")
-    print("[TensorPrism] Trying alternative import method...")
-    
-    try:
-        # Option B: If all nodes are in one file
-        from .nodes import (
-            CoreMergeNode, 
-            ModelEnhancerNode, 
-            LayeredBlendNode, 
-            PrismNode, 
-            SDXLBlockMergeNode, 
-            ModelMaskGeneratorNode, 
-            WeightedMaskMergeNode
-        )
-        print("[TensorPrism] Alternative imports successful!")
-        
-    except ImportError as e2:
-        print(f"[TensorPrism] Alternative import also failed: {e2}")
-        
-        # Option C: If everything is in __init__.py itself
-        try:
-            # Import from current file - adjust based on your actual setup
-            print("[TensorPrism] Trying to load from current file...")
-            # Your node classes would be defined here or imported differently
-            
-        except Exception as e3:
-            print(f"[TensorPrism] All import methods failed: {e3}")
-            print("[TensorPrism] Please check your file structure and node class definitions")
+# Import all your node classes
+from .TensorPrism_Enhancer import ModelEnhancerTensorPrism
+from .TensorPrism_LayeredBlend import TensorPrism_LayeredBlend
+from .TensorPrism_MainMerge import TensorPrism_MainMerge
+from .TensorPrism_MaskedTensorMerge import TensorPrism_WeightedMaskMerge
+from .TensorPrism_ModelMaskGenerator import TensorPrism_ModelMaskGenerator, TensorPrism_WeightedMaskMerge as MaskMerge
+from .TensorPrism_Prism import TensorPrism_FastPrism
+from .TensorPrism_SDXLBlockMergeGranular import SDXLBlockMergeGranularTensorPrism
 
-# Step 2: Define node mappings (adjust class names to match what you actually have)
-try:
-    NODE_CLASS_MAPPINGS = {}
-    NODE_DISPLAY_NAME_MAPPINGS = {}
-    
-    # Only add nodes that successfully imported
-    if 'CoreMergeNode' in locals():
-        NODE_CLASS_MAPPINGS["TensorPrism_CoreMerge"] = CoreMergeNode
-        NODE_DISPLAY_NAME_MAPPINGS["TensorPrism_CoreMerge"] = "Core Merge"
-        
-    if 'ModelEnhancerNode' in locals():
-        NODE_CLASS_MAPPINGS["TensorPrism_ModelEnhancer"] = ModelEnhancerNode
-        NODE_DISPLAY_NAME_MAPPINGS["TensorPrism_ModelEnhancer"] = "Model Enhancer"
-        
-    if 'LayeredBlendNode' in locals():
-        NODE_CLASS_MAPPINGS["TensorPrism_LayeredBlend"] = LayeredBlendNode
-        NODE_DISPLAY_NAME_MAPPINGS["TensorPrism_LayeredBlend"] = "Layered Blend"
-        
-    if 'PrismNode' in locals():
-        NODE_CLASS_MAPPINGS["TensorPrism_Prism"] = PrismNode
-        NODE_DISPLAY_NAME_MAPPINGS["TensorPrism_Prism"] = "Prism"
-        
-    if 'SDXLBlockMergeNode' in locals():
-        NODE_CLASS_MAPPINGS["TensorPrism_SDXLBlockMerge"] = SDXLBlockMergeNode
-        NODE_DISPLAY_NAME_MAPPINGS["TensorPrism_SDXLBlockMerge"] = "SDXL Block Merge"
-        
-    if 'ModelMaskGeneratorNode' in locals():
-        NODE_CLASS_MAPPINGS["TensorPrism_ModelMaskGenerator"] = ModelMaskGeneratorNode
-        NODE_DISPLAY_NAME_MAPPINGS["TensorPrism_ModelMaskGenerator"] = "Model Mask Generator"
-        
-    if 'WeightedMaskMergeNode' in locals():
-        NODE_CLASS_MAPPINGS["TensorPrism_WeightedMaskMerge"] = WeightedMaskMergeNode
-        NODE_DISPLAY_NAME_MAPPINGS["TensorPrism_WeightedMaskMerge"] = "Weighted Mask Merge"
-    
-    print(f"[TensorPrism] Successfully registered {len(NODE_CLASS_MAPPINGS)} nodes:")
-    for key, value in NODE_CLASS_MAPPINGS.items():
-        print(f"  - {key}: {value.__name__}")
-        
-    if len(NODE_CLASS_MAPPINGS) == 0:
-        print("[TensorPrism] WARNING: No nodes were registered! Check your class names and imports.")
-        
-except Exception as e:
-    print(f"[TensorPrism] Error creating node mappings: {e}")
-    NODE_CLASS_MAPPINGS = {}
-    NODE_DISPLAY_NAME_MAPPINGS = {}
+print("[TensorPrism] All node classes imported successfully!")
 
-# Step 3: Verify node classes have required methods
-print("[TensorPrism] Checking node class requirements...")
-for name, node_class in NODE_CLASS_MAPPINGS.items():
-    if hasattr(node_class, 'INPUT_TYPES'):
-        print(f"  ✓ {name} has INPUT_TYPES")
-    else:
-        print(f"  ✗ {name} missing INPUT_TYPES method")
-        
-    if hasattr(node_class, 'RETURN_TYPES'):
-        print(f"  ✓ {name} has RETURN_TYPES")
-    else:
-        print(f"  ✗ {name} missing RETURN_TYPES")
+# Consolidate all NODE_CLASS_MAPPINGS from individual files
+NODE_CLASS_MAPPINGS = {
+    # From TensorPrism_Enhancer.py
+    "ModelEnhancerTensorPrism": ModelEnhancerTensorPrism,
+    
+    # From TensorPrism_LayeredBlend.py
+    "TensorPrism_LayeredBlend": TensorPrism_LayeredBlend,
+    
+    # From TensorPrism_MainMerge.py
+    "TensorPrism_MainMerge": TensorPrism_MainMerge,
+    
+    # From TensorPrism_MaskedTensorMerge.py
+    "TensorPrism_WeightedMaskMerge": TensorPrism_WeightedMaskMerge,
+    
+    # From TensorPrism_ModelMaskGenerator.py
+    "TensorPrism_ModelMaskGenerator": TensorPrism_ModelMaskGenerator,
+    
+    # From TensorPrism_Prism.py
+    "TensorPrism_Prism": TensorPrism_FastPrism,
+    
+    # From TensorPrism_SDXLBlockMergeGranular.py
+    "SDXL Block Merge (Tensor Prism)": SDXLBlockMergeGranularTensorPrism,
+}
 
-print("[TensorPrism] Initialization complete!")
+# Consolidate all NODE_DISPLAY_NAME_MAPPINGS
+NODE_DISPLAY_NAME_MAPPINGS = {
+    # From TensorPrism_Enhancer.py
+    "ModelEnhancerTensorPrism": "Model Enhancer (Tensor Prism)",
+    
+    # From TensorPrism_LayeredBlend.py
+    "TensorPrism_LayeredBlend": "Layered Blend (Tensor Prism)",
+    
+    # From TensorPrism_MainMerge.py
+    "TensorPrism_MainMerge": "Main Merge (Tensor Prism)",
+    
+    # From TensorPrism_MaskedTensorMerge.py
+    "TensorPrism_WeightedMaskMerge": "Weighted Mask Merge (Tensor Prism)",
+    
+    # From TensorPrism_ModelMaskGenerator.py
+    "TensorPrism_ModelMaskGenerator": "Model Mask Generator (Tensor Prism)",
+    
+    # From TensorPrism_Prism.py
+    "TensorPrism_Prism": "Prism (Tensor Prism)",
+    
+    # From TensorPrism_SDXLBlockMergeGranular.py
+    "SDXL Block Merge (Tensor Prism)": "SDXL Block Merge (Tensor Prism)",
+}
+
+# Web extensions (if you have any)
+WEB_DIRECTORY = "./web"
+
+# Package info
+__version__ = "1.0.0"
+__author__ = "AstrionX"
 
 # Required by ComfyUI
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
+
+print(f"[TensorPrism] Successfully registered {len(NODE_CLASS_MAPPINGS)} nodes:")
+for key, value in NODE_CLASS_MAPPINGS.items():
+    print(f"  - {key}")
+
+print("[TensorPrism] Node pack loaded successfully!")
