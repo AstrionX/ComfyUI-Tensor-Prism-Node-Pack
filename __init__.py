@@ -3,30 +3,47 @@ TensorPrism ComfyUI Node Pack
 Advanced model merging and enhancement nodes for ComfyUI
 """
 
-from .TensorPrism_CoreMerge import NODE_CLASS_MAPPINGS as CoreMerge_Mappings, NODE_DISPLAY_NAME_MAPPINGS as CoreMerge_Display
-from .TensorPrism_Enhancer import NODE_CLASS_MAPPINGS as Enhancer_Mappings, NODE_DISPLAY_NAME_MAPPINGS as Enhancer_Display
-from .TensorPrism_LayeredBlend import NODE_CLASS_MAPPINGS as LayeredBlend_Mappings, NODE_DISPLAY_NAME_MAPPINGS as LayeredBlend_Display
-from .TensorPrism_MaskedTensorMerge import NODE_CLASS_MAPPINGS as MaskedMerge_Mappings, NODE_DISPLAY_NAME_MAPPINGS as MaskedMerge_Display
-from .TensorPrism_ModelMaskGenerator import NODE_CLASS_MAPPINGS as ModelMask_Mappings, NODE_DISPLAY_NAME_MAPPINGS as ModelMask_Display
-from .TensorPrism_Prism import NODE_CLASS_MAPPINGS as Prism_Mappings, NODE_DISPLAY_NAME_MAPPINGS as Prism_Display
-from .TensorPrism_SDXLBlockMergeGranular import NODE_CLASS_MAPPINGS as SDXLBlock_Mappings, NODE_DISPLAY_NAME_MAPPINGS as SDXLBlock_Display
+# Import all your node classes here
+from .nodes.core_merge import CoreMergeNode
+from .nodes.model_enhancer import ModelEnhancerNode
+from .nodes.layered_blend import LayeredBlendNode
+from .nodes.prism import PrismNode
+from .nodes.sdxl_block_merge import SDXLBlockMergeNode
+from .nodes.model_mask_generator import ModelMaskGeneratorNode
+from .nodes.weighted_mask_merge import WeightedMaskMergeNode
 
-# Combine all node mappings
-NODE_CLASS_MAPPINGS = {}
-NODE_DISPLAY_NAME_MAPPINGS = {}
+# Define the node class mappings - this is CRITICAL for ComfyUI to recognize your nodes
+NODE_CLASS_MAPPINGS = {
+    "TensorPrism_CoreMerge": CoreMergeNode,
+    "TensorPrism_ModelEnhancer": ModelEnhancerNode,
+    "TensorPrism_LayeredBlend": LayeredBlendNode,
+    "TensorPrism_Prism": PrismNode,
+    "TensorPrism_SDXLBlockMerge": SDXLBlockMergeNode,
+    "TensorPrism_ModelMaskGenerator": ModelMaskGeneratorNode,
+    "TensorPrism_WeightedMaskMerge": WeightedMaskMergeNode,
+}
 
-# Add all mappings
-for mapping in [CoreMerge_Mappings, Enhancer_Mappings, LayeredBlend_Mappings, 
-                MaskedMerge_Mappings, ModelMask_Mappings, Prism_Mappings, SDXLBlock_Mappings]:
-    NODE_CLASS_MAPPINGS.update(mapping)
+# Define display names for the UI - this makes your nodes look professional
+NODE_DISPLAY_NAME_MAPPINGS = {
+    "TensorPrism_CoreMerge": "Core Merge",
+    "TensorPrism_ModelEnhancer": "Model Enhancer",
+    "TensorPrism_LayeredBlend": "Layered Blend",
+    "TensorPrism_Prism": "Prism",
+    "TensorPrism_SDXLBlockMerge": "SDXL Block Merge",
+    "TensorPrism_ModelMaskGenerator": "Model Mask Generator",
+    "TensorPrism_WeightedMaskMerge": "Weighted Mask Merge",
+}
 
-for mapping in [CoreMerge_Display, Enhancer_Display, LayeredBlend_Display,
-                MaskedMerge_Display, ModelMask_Display, Prism_Display, SDXLBlock_Display]:
-    NODE_DISPLAY_NAME_MAPPINGS.update(mapping)
+# Web extensions (if you have any custom web UI components)
+WEB_DIRECTORY = "./web"
 
-# Export for ComfyUI
+# Optional: Add version info
+__version__ = "1.0.0"
+
+# Optional: Add author info
+__author__ = "AstrionX"
+
+# This is required by ComfyUI to identify this as a node package
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
 
-# Version info
-WEB_DIRECTORY = "./web"
-__version__ = "1.0.0"
+print(f"[TensorPrism] Loaded {len(NODE_CLASS_MAPPINGS)} nodes successfully!")
