@@ -1,0 +1,28 @@
+[project]
+name = "tensorprism-comfyui"
+version = "1.0.0"
+description = "Advanced model merging and enhancement nodes for ComfyUI"
+readme = "README.md"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=1.12.0",
+    "numpy>=1.21.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/tensorprism-comfyui"
+Repository = "https://github.com/yourusername/tensorprism-comfyui"
+Issues = "https://github.com/yourusername/tensorprism-comfyui/issues"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
+exclude = ["tests*"]
