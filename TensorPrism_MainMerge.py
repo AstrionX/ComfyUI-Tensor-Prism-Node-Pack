@@ -85,7 +85,7 @@ class TensorPrism_MainMerge:
         """FFT-based frequency domain blending"""
         if t1.numel() < 4 or t2.numel() < 4:
             # Fall back to linear for very small tensors
-            return TensorPrism_CoreMerge._blend_linear(t1, t2, (low_ratio + high_ratio) / 2)
+            return TensorPrism_MainMerge._blend_linear(t1, t2, (low_ratio + high_ratio) / 2)
         
         try:
             # Reshape for FFT if needed (ensure at least 2D)
@@ -141,7 +141,7 @@ class TensorPrism_MainMerge:
             
         except Exception as e:
             # Fallback to linear interpolation if FFT fails
-            return TensorPrism_CoreMerge._blend_linear(t1, t2, (low_ratio + high_ratio) / 2)
+            return TensorPrism_MainMerge._blend_linear(t1, t2, (low_ratio + high_ratio) / 2)
 
     @staticmethod
     def _blend_stochastic(t1, t2, alpha, prob, seed):
@@ -155,7 +155,7 @@ class TensorPrism_MainMerge:
         
         # Apply stochastic blending
         # Where mask is True, use model B, otherwise blend normally
-        base_blend = TensorPrism_CoreMerge._blend_linear(t1, t2, alpha)
+        base_blend = TensorPrism_MainMerge._blend_linear(t1, t2, alpha)
         stochastic_component = torch.where(mask, t2, t1)
         
         # Combine base blend with stochastic component
@@ -225,5 +225,4 @@ NODE_CLASS_MAPPINGS = {
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "TensorPrism_MainMerge": "Main Merge (Tensor Prism)"
-
 }
