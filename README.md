@@ -1,7 +1,7 @@
 ### ComfyUI-Tensor-Prism-Node-Pack
 ## Developer Notes
 
-My First ComfyUI Node Pack, vibe coded with Gemini 2.5 Flash and Claude 4. Feel free to publish the models you make and link them to me I'd like to be able to see the models, and see what they're about to see if I need to add more nodes or if the nodes are good and make really good quality checkpoint models.
+My First ComfyUI Node Pack, vibe coded with Gemini 2.5 Flash and Claude 4. Feel free to publish the models you make and link them to me I'd like to be able to see the models, and see what they're about to see if I need to add more nodes or if the nodes are good and make really good quality checkpoint models. This is also a node pack for those familiar with merging models.
 
 # TensorPrism ComfyUI Node Pack
 
