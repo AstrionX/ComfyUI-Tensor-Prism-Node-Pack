@@ -555,16 +555,20 @@ class SDXLAdvancedBlockMergeTensorPrism:
                 "out.": max(0.0, min(1.0, kwargs.get("out_ratio", default_ratio))),
             }
             
-            # Add block-specific ratios
+            # Add input blocks first (0-8)
             for i in range(9):
                 input_ratio = max(0.0, min(1.0, kwargs.get(f"input_block_{i:02d}_ratio", default_ratio)))
-                output_ratio = max(0.0, min(1.0, kwargs.get(f"output_block_{i:02d}_ratio", default_ratio)))
                 ratio_prefixes[f"input_blocks.{i}."] = input_ratio
-                ratio_prefixes[f"output_blocks.{i}."] = output_ratio
             
+            # Add middle blocks second (0-2)
             for i in range(3):
                 middle_ratio = max(0.0, min(1.0, kwargs.get(f"middle_block_{i:02d}_ratio", default_ratio)))
                 ratio_prefixes[f"middle_block.{i}."] = middle_ratio
+            
+            # Add output blocks last (0-8)
+            for i in range(9):
+                output_ratio = max(0.0, min(1.0, kwargs.get(f"output_block_{i:02d}_ratio", default_ratio)))
+                ratio_prefixes[f"output_blocks.{i}."] = output_ratio
             
             # Sort prefixes by length (descending)
             sorted_prefixes = sorted(ratio_prefixes.items(), key=lambda x: len(x[0]), reverse=True)
