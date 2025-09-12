@@ -3,102 +3,134 @@ TensorPrism ComfyUI Node Pack
 Advanced model merging and enhancement nodes for ComfyUI
 """
 
-import sys
-import os
-import traceback
+# Import all your node classes
+try:
+    from .TensorPrism_LayeredBlend import TensorPrism_LayeredBlend
+except ImportError as e:
+    print(f"Warning: Could not import TensorPrism_LayeredBlend: {e}")
+    TensorPrism_LayeredBlend = None
 
-print("[TensorPrism] Loading node pack...")
+try:
+    from .TensorPrism_MainMerge import TensorPrism_MainMerge
+except ImportError as e:
+    print(f"Warning: Could not import TensorPrism_MainMerge: {e}")
+    TensorPrism_MainMerge = None
 
-# Initialize mappings
+try:
+    from .TensorPrism_MaskedTensorMerge import TensorPrism_WeightedMaskMerge
+except ImportError as e:
+    print(f"Warning: Could not import TensorPrism_WeightedMaskMerge: {e}")
+    TensorPrism_WeightedMaskMerge = None
+
+try:
+    from .TensorPrism_ModelKeyFilter import TensorPrism_ModelKeyFilter
+except ImportError as e:
+    print(f"Warning: Could not import TensorPrism_ModelKeyFilter: {e}")
+    TensorPrism_ModelKeyFilter = None
+
+try:
+    from .TensorPrism_ModelMaskBlender import TensorPrism_ModelMaskBlender
+except ImportError as e:
+    print(f"Warning: Could not import TensorPrism_ModelMaskBlender: {e}")
+    TensorPrism_ModelMaskBlender = None
+
+try:
+    from .TensorPrism_ModelMaskGenerator import (
+        TensorPrism_ModelMaskGenerator,
+        TensorPrism_WeightedMaskMerge as MaskGenWeightedMerge
+    )
+except ImportError as e:
+    print(f"Warning: Could not import from TensorPrism_ModelMaskGenerator: {e}")
+    TensorPrism_ModelMaskGenerator = None
+    MaskGenWeightedMerge = None
+
+try:
+    from .TensorPrism_ModelWeightModifier import TensorPrism_ModelWeightModifier
+except ImportError as e:
+    print(f"Warning: Could not import TensorPrism_ModelWeightModifier: {e}")
+    TensorPrism_ModelWeightModifier = None
+
+try:
+    from .TensorPrism_Prism import TensorPrism_FastPrism
+except ImportError as e:
+    print(f"Warning: Could not import TensorPrism_FastPrism: {e}")
+    TensorPrism_FastPrism = None
+
+try:
+    from .TensorPrism_SDXLAdvancedBlockmerge import SDXLAdvancedBlockMergeTensorPrism
+except ImportError as e:
+    print(f"Warning: Could not import SDXLAdvancedBlockMergeTensorPrism: {e}")
+    SDXLAdvancedBlockMergeTensorPrism = None
+
+try:
+    from .TensorPrism_SDXLBlockMerge import SDXLBlockMergeGranularTensorPrism
+except ImportError as e:
+    print(f"Warning: Could not import SDXLBlockMergeGranularTensorPrism: {e}")
+    SDXLBlockMergeGranularTensorPrism = None
+
+# Node class mappings - this is what ComfyUI looks for
 NODE_CLASS_MAPPINGS = {}
-NODE_DISPLAY_NAME_MAPPINGS = {}
 
-# Define individual node imports with error handling
-def safe_import(module_name, class_names, display_names):
-    """Safely import nodes with error handling"""
-    try:
-        module = __import__(f".{module_name}", package=__name__, fromlist=class_names.keys())
-        for class_key, class_name in class_names.items():
-            if hasattr(module, class_name):
-                NODE_CLASS_MAPPINGS[class_key] = getattr(module, class_name)
-                NODE_DISPLAY_NAME_MAPPINGS[class_key] = display_names[class_key]
-                print(f"[TensorPrism] ✓ Loaded: {display_names[class_key]}")
-            else:
-                print(f"[TensorPrism] ⚠ Class {class_name} not found in {module_name}")
-    except ImportError as e:
-        print(f"[TensorPrism] ⚠ Failed to import {module_name}: {e}")
-        return False
-    except Exception as e:
-        print(f"[TensorPrism] ⚠ Error loading {module_name}: {e}")
-        return False
-    return True
+# Add nodes to mapping if they were successfully imported
+if TensorPrism_LayeredBlend is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_LayeredBlend"] = TensorPrism_LayeredBlend
 
-# Core Merging Nodes
-safe_import("TensorPrism_MainMerge", 
-           {"TensorPrism_MainMerge": "TensorPrism_MainMerge"},
-           {"TensorPrism_MainMerge": "Main Merge (Tensor Prism)"})
+if TensorPrism_MainMerge is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_MainMerge"] = TensorPrism_MainMerge
 
-safe_import("TensorPrism_Prism",
-           {"TensorPrism_Prism": "TensorPrism_FastPrism"},
-           {"TensorPrism_Prism": "Prism (Tensor Prism)"})
+if TensorPrism_WeightedMaskMerge is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_WeightedMaskMerge"] = TensorPrism_WeightedMaskMerge
 
-# Legacy/Original Nodes (may not exist yet)
-safe_import("TensorPrism_Enhancer",
-           {"ModelEnhancerTensorPrism": "ModelEnhancerTensorPrism"},
-           {"ModelEnhancerTensorPrism": "Model Enhancer (Tensor Prism)"})
+if TensorPrism_ModelKeyFilter is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_ModelKeyFilter"] = TensorPrism_ModelKeyFilter
 
-safe_import("TensorPrism_LayeredBlend",
-           {"TensorPrism_LayeredBlend": "TensorPrism_LayeredBlend"},
-           {"TensorPrism_LayeredBlend": "Layered Blend (Tensor Prism)"})
+if TensorPrism_ModelMaskBlender is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_ModelMaskBlender"] = TensorPrism_ModelMaskBlender
 
-# SDXL Block Merge Nodes
-safe_import("TensorPrism_SDXLBlockMerge",
-           {"SDXL Block Merge (Tensor Prism)": "SDXLBlockMergeGranularTensorPrism"},
-           {"SDXL Block Merge (Tensor Prism)": "SDXL Block Merge (Tensor Prism)"})
+if TensorPrism_ModelMaskGenerator is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_ModelMaskGenerator"] = TensorPrism_ModelMaskGenerator
 
-safe_import("TensorPrism_SDXLAdvancedBlockmerge",
-           {"SDXLAdvancedBlockMergeTensorPrism": "SDXLAdvancedBlockMergeTensorPrism"},
-           {"SDXLAdvancedBlockMergeTensorPrism": "SDXL Advanced Block Merge (Tensor Prism)"})
+# Handle the duplicate WeightedMaskMerge from ModelMaskGenerator
+if MaskGenWeightedMerge is not None and TensorPrism_WeightedMaskMerge is None:
+    NODE_CLASS_MAPPINGS["TensorPrism_WeightedMaskMerge"] = MaskGenWeightedMerge
 
-# Mask System Nodes
-safe_import("TensorPrism_ModelMaskGenerator",
-           {"TensorPrism_ModelMaskGenerator": "TensorPrism_ModelMaskGenerator",
-            "TensorPrism_WeightedMaskMerge": "TensorPrism_WeightedMaskMerge"},
-           {"TensorPrism_ModelMaskGenerator": "Model Mask Generator (Tensor Prism)",
-            "TensorPrism_WeightedMaskMerge": "Weighted Mask Merge (Tensor Prism)"})
+if TensorPrism_ModelWeightModifier is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_ModelWeightModifier"] = TensorPrism_ModelWeightModifier
 
-safe_import("TensorPrism_MaskedTensorMerge",
-           {"TensorPrism_WeightedMaskMerge_Alt": "TensorPrism_WeightedMaskMerge"},
-           {"TensorPrism_WeightedMaskMerge_Alt": "Weighted Mask Merge Alt (Tensor Prism)"})
+if TensorPrism_FastPrism is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_Prism"] = TensorPrism_FastPrism
 
-safe_import("TensorPrism_ModelKeyFilter",
-           {"TensorPrism_ModelKeyFilter": "TensorPrism_ModelKeyFilter"},
-           {"TensorPrism_ModelKeyFilter": "Model Key Filter (Tensor Prism)"})
+if SDXLAdvancedBlockMergeTensorPrism is not None:
+    NODE_CLASS_MAPPINGS["SDXLAdvancedBlockMergeTensorPrism"] = SDXLAdvancedBlockMergeTensorPrism
 
-safe_import("TensorPrism_ModelMaskBlender",
-           {"TensorPrism_ModelMaskBlender": "TensorPrism_ModelMaskBlender"},
-           {"TensorPrism_ModelMaskBlender": "Mask Blender (Tensor Prism)"})
+if SDXLBlockMergeGranularTensorPrism is not None:
+    NODE_CLASS_MAPPINGS["TensorPrism_SDXLBlockMerge"] = SDXLBlockMergeGranularTensorPrism
 
-# Model Modification Nodes
-safe_import("TensorPrism_ModelWeightModifier",
-           {"TensorPrism_ModelWeightModifier": "TensorPrism_ModelWeightModifier"},
-           {"TensorPrism_ModelWeightModifier": "Model Weight Modifier (Tensor Prism)"})
+# Display name mappings - these are the human-readable names shown in ComfyUI
+NODE_DISPLAY_NAME_MAPPINGS = {
+    "TensorPrism_LayeredBlend": "Layered Blend (Tensor Prism)",
+    "TensorPrism_MainMerge": "Main Merge (Tensor Prism)", 
+    "TensorPrism_WeightedMaskMerge": "Weighted Mask Merge (Tensor Prism)",
+    "TensorPrism_ModelKeyFilter": "Model Key Filter (Tensor Prism)",
+    "TensorPrism_ModelMaskBlender": "Mask Blender (Tensor Prism)",
+    "TensorPrism_ModelMaskGenerator": "Model Mask Generator (Tensor Prism)",
+    "TensorPrism_ModelWeightModifier": "Model Weight Modifier (Tensor Prism)",
+    "TensorPrism_Prism": "Prism (Tensor Prism)",
+    "SDXLAdvancedBlockMergeTensorPrism": "SDXL Advanced Block Merge (Tensor Prism)",
+    "TensorPrism_SDXLBlockMerge": "SDXL Block Merge (Tensor Prism)",
+    "ModelEnhancerTensorPrism": "Model Enhancer (Tensor Prism)",
+}
 
-# Web extensions (if you have any)
-WEB_DIRECTORY = "./web"
-
-# Package info
-__version__ = "1.1.0"
-__author__ = "AstrionX"
-
-# Required by ComfyUI
+# Export what ComfyUI needs
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
 
-print(f"[TensorPrism] Successfully registered {len(NODE_CLASS_MAPPINGS)} nodes:")
-for key in sorted(NODE_CLASS_MAPPINGS.keys()):
-    print(f"  - {NODE_DISPLAY_NAME_MAPPINGS[key]}")
-
-if len(NODE_CLASS_MAPPINGS) == 0:
-    print("[TensorPrism] ⚠ WARNING: No nodes were loaded! Check your file structure and imports.")
+# Print loaded nodes for debugging
+loaded_nodes = list(NODE_CLASS_MAPPINGS.keys())
+if loaded_nodes:
+    print(f"TensorPrism: Successfully loaded {len(loaded_nodes)} nodes:")
+    for node_name in sorted(loaded_nodes):
+        display_name = NODE_DISPLAY_NAME_MAPPINGS.get(node_name, node_name)
+        print(f"  - {display_name}")
 else:
-    print("[TensorPrism] Node pack loaded successfully!")
+    print("TensorPrism: Warning - No nodes were loaded successfully!")
+    print("Check that all Python files are in the same directory and have no import errors.")
