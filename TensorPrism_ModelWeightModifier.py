@@ -4,6 +4,7 @@ import gc
 import psutil
 from collections import defaultdict
 from typing import Dict, List, Tuple, Optional
+import numpy as np
 
 def is_unet_key(key: str) -> bool:
     key_lower = key.lower()
@@ -31,8 +32,6 @@ def _get_unet_component_type(param_name: str) -> str:
         return 'out'
     return 'other_unet'
 
-MODEL_MASK_TYPE = ("MODEL_MASK",)
-
 class TensorPrism_ModelWeightModifier:
     """
     Memory-efficient model weight modifier that processes tensors in batches
@@ -50,7 +49,7 @@ class TensorPrism_ModelWeightModifier:
                 "memory_limit_gb": ("FLOAT", {"default": 4.0, "min": 1.0, "max": 32.0, "step": 0.5, "round": 0.1, "label": "Memory Limit (GB)"}),
             },
             "optional": {
-                "mask": MODEL_MASK_TYPE,
+                "mask": ("MASK",),  # Updated to use ComfyUI standard MASK type instead of custom MODEL_MASK
                 "mask_strength": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.01, "round": 0.001, "label": "Mask Application Strength"}),
                 "max_abs_reference_model": ("MODEL", {"forceInput": True}),
             }
@@ -222,6 +221,28 @@ class TensorPrism_ModelWeightModifier:
 
         return batch_results
 
+    def convert_comfyui_mask_to_dict(self, mask_tensor, state_dict):
+        """Convert ComfyUI mask tensor to mask_dict format used internally"""
+        if mask_tensor is None:
+            return {}
+        
+        # Convert tensor to numpy for processing
+        if isinstance(mask_tensor, torch.Tensor):
+            mask_array = mask_tensor.cpu().numpy()
+        else:
+            mask_array = np.array(mask_tensor)
+        
+        # Flatten and get average mask value
+        mask_value = float(np.mean(mask_array))
+        
+        # Create mask_dict with uniform mask value for all parameters
+        mask_dict = {}
+        for key in state_dict.keys():
+            if isinstance(state_dict[key], torch.Tensor) and state_dict[key].is_floating_point():
+                mask_dict[key] = mask_value
+        
+        return mask_dict
+
     def modify_weights(self, model, modification_target, modification_operation, value, 
                       use_mask=False, memory_limit_gb=4.0, mask=None, mask_strength=1.0, 
                       max_abs_reference_model=None):
@@ -239,7 +260,11 @@ class TensorPrism_ModelWeightModifier:
         modified_model = copy.deepcopy(model)
         state_dict = modified_model.model.state_dict()
         
-        mask_dict = mask["mask_dict"] if use_mask and mask else {}
+        if use_mask and mask is not None:
+            mask_dict = self.convert_comfyui_mask_to_dict(mask, state_dict)
+            print(f"  Using mask with average value: {np.mean(list(mask_dict.values())) if mask_dict else 0.0:.3f}")
+        else:
+            mask_dict = {}
 
         # Calculate reference max abs if needed
         reference_max_abs = None
