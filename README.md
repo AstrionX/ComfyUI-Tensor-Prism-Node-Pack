@@ -186,7 +186,7 @@ Contributions are welcome! Please feel free to submit issues and pull requests.
 
 ## Changelog
 
-### Version 1.0.0
+### Version 1.1.0
 - Initial release
 - Core merging nodes with advanced interpolation methods
 - Spectral analysis and frequency-domain merging
