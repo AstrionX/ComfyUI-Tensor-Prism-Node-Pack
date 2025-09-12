@@ -136,11 +136,13 @@ class SDXLAdvancedBlockMergeTensorPrism:
         # Add block-specific ratios
         for i in range(9):
             inputs["optional"][f"input_block_{i:02d}_ratio"] = ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.01, "round": 0.001})
-            inputs["optional"][f"output_block_{i:02d}_ratio"] = ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.01, "round": 0.001})
         
         for i in range(3):
             inputs["optional"][f"middle_block_{i:02d}_ratio"] = ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.01, "round": 0.001})
-
+        
+        for i in range(9):
+            inputs["optional"][f"output_block_{i:02d}_ratio"] = ("FLOAT", {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.01, "round": 0.001})
+        
         return inputs
 
     RETURN_TYPES = ("MODEL",)
