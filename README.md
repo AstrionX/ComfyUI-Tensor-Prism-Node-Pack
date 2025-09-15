@@ -1,6 +1,6 @@
 ### ComfyUI-Tensor-Prism-Node-Pack
 ## Developer Notes
-IMPORTANT: You will have to do a regular ModelMergeSDXL for the blocks, since it's currently still being fixed.
+IMPORTANT: You will have to do a regular ModelMergeSDXL for the block layer merging, since it's currently still being fixed.
 
 My First ComfyUI Node Pack, sort of vibe-coded with Gemini 2.5 Flash and Claude 4. Feel free to publish the models you make and link them to me I'd like to be able to see the models, and see what they're about to see if I need to add more nodes or if the nodes are good and make really good quality checkpoint models. This is also a node pack for those familiar with merging models.
 
@@ -315,6 +315,7 @@ Contributions are welcome! Please feel free to submit issues and pull requests.
 - Support for SDXL models with granular block control
 
 - Model weight modification tools
+
 
 
 
