@@ -1,7 +1,7 @@
 ### ComfyUI-Tensor-Prism-Node-Pack
 ## Developer Notes
 
-My First ComfyUI Node Pack, vibe coded with Gemini 2.5 Flash and Claude 4. Feel free to publish the models you make and link them to me I'd like to be able to see the models, and see what they're about to see if I need to add more nodes or if the nodes are good and make really good quality checkpoint models. This is also a node pack for those familiar with merging models.
+My First ComfyUI Node Pack, sort of vibe-coded with Gemini 2.5 Flash and Claude 4. Feel free to publish the models you make and link them to me I'd like to be able to see the models, and see what they're about to see if I need to add more nodes or if the nodes are good and make really good quality checkpoint models. This is also a node pack for those familiar with merging models.
 
 # TensorPrism ComfyUI Node Pack
 
@@ -62,22 +62,23 @@ Advanced model merging and enhancement nodes for ComfyUI, providing sophisticate
 
 ## Installation
 
-### Method 1: ComfyUI Manager
+### Method 1: Git Clone
+```bash
+cd ComfyUI/custom_nodes/
+git clone https://github.com/AstrionX/ComfyUI-Tensor-Prism-Node-Pack.git
+```
+
+### Method 2: ComfyUI Manager
 Note: Not available yet there.
 1. Open ComfyUI Manager
 2. Search for "TensorPrism"
 3. Click Install
 
-### Method 2: Manual Installation (OPTIONAL)
+### Method 3: Manual Installation (OPTIONAL)
 1. Clone or download this repository
 2. Place the entire folder in your `ComfyUI/custom_nodes/` directory
 3. Restart ComfyUI
 
-### Method 3: Git Clone (OPTIONAL)
-```bash
-cd ComfyUI/custom_nodes/
-git clone https://github.com/AstrionX/ComfyUI-Tensor-Prism-Node-Pack.git
-```
 
 ## Usage
 
@@ -312,4 +313,5 @@ Contributions are welcome! Please feel free to submit issues and pull requests.
 - Spectral analysis and frequency-domain merging
 - Advanced mask system with filtering and blending
 - Support for SDXL models with granular block control
+
 - Model weight modification tools
