@@ -261,7 +261,6 @@ The TensorPrism pack includes advanced memory management features:
 - **Prediction Type Issues**: Use the Epsilon/V-Pred nodes for automatic type conversion
 - **CLIP Problems**: Use preserve_norms=True and lower merge ratios for CLIP stability
 - **Conversion Artifacts**: Reduce conversion strength or use pure converter instead of block merge
-- **Workflow Complexity**: Use Checkpoint Reroute + Notes nodes to organize and document complex merging chains
 
 ## Performance Tips
 
@@ -315,3 +314,4 @@ Contributions are welcome! Please feel free to submit issues and pull requests.
 - Support for SDXL models with granular block control
 
 - Model weight modification tools
+
