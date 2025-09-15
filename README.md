@@ -65,7 +65,7 @@ Advanced model merging and enhancement nodes for ComfyUI, providing sophisticate
 ### Method 1: Git Clone
 ```bash
 cd ComfyUI/custom_nodes/
-git clone https://github.com/AstrionX/ComfyUI-Tensor-Prism-Node-Pack.git
+git clone https://github.com/NoxTheCubeman/ComfyUI-Tensor-Prism-Node-Pack.git
 ```
 
 ### Method 2: ComfyUI Manager
@@ -314,4 +314,5 @@ Contributions are welcome! Please feel free to submit issues and pull requests.
 - Support for SDXL models with granular block control
 
 - Model weight modification tools
+
 
